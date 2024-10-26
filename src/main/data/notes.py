@@ -4,9 +4,9 @@ def load_notes(data_path: str) -> pd.DataFrame:
     # cargamos notes
     notes = pd.read_csv(data_path + 'notes.csv', encoding='UTF-8', sep=';')
     # conversion de tipo de datos
-    notes_clean['P_Grade'] = pd.to_numeric(notes_clean['P_Grade'].replace(',', '.', regex=True), errors='coerce')
-    notes_clean['F_Grade'] = pd.to_numeric(notes_clean['F_Grade'].replace(',', '.', regex=True), errors='coerce')
-    notes_clean['R_Grade'] = pd.to_numeric(notes_clean['R_Grade'].replace(',', '.', regex=True), errors='coerce')
+    notes['P_Grade'] = pd.to_numeric(notes['P_Grade'].replace(',', '.', regex=True), errors='coerce')
+    notes['F_Grade'] = pd.to_numeric(notes['F_Grade'].replace(',', '.', regex=True), errors='coerce')
+    notes['R_Grade'] = pd.to_numeric(notes['R_Grade'].replace(',', '.', regex=True), errors='coerce')
 
     # data cleansing
     notes["avalContinua"] = notes['P_Grade_Date'].notnull()
@@ -26,4 +26,4 @@ def load_notes(data_path: str) -> pd.DataFrame:
     notes_clean["passed"] = (notes_clean["F_Grade"] >= 5) | (notes_clean["R_Grade"] >= 5)
 
 
-    notes_clean
+    return notes_clean
