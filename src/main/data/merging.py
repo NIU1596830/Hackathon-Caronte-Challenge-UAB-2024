@@ -19,5 +19,9 @@ def merge_datasets(activitats: pd.DataFrame, notes: pd.DataFrame, trameses: pd.D
     # mean of the grades of the activities by the user for each class
     joined2_cleaned["grades_mean"] = joined2_cleaned.groupby(['aula_id', 'userid'])['grade'].transform('mean')
 
+    # percentage of activities done
+    joined2_cleaned['actPercentage'] = joined2_cleaned['actCount'] / joined2_cleaned['actTotal']
+
+    joined2_cleaned = joined2_cleaned.drop(axis=1, labels=["id", "activitat_id", "userid", "dategraded", "startdate", "avalContinua", "actCount", "duedate", "passed", "grade", "actTotal", "R_Grade", "F_Grade"])
 
     return joined2_cleaned

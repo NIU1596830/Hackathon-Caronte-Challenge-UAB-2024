@@ -24,6 +24,8 @@ def load_notes(data_path: str) -> pd.DataFrame:
 
     # put a flag for the passed grades
     notes_clean["passed"] = (notes_clean["F_Grade"] >= 5) | (notes_clean["R_Grade"] >= 5)
-
+    notes_clean["FF_Grade"] = notes_clean["F_Grade"]
+    notes_clean["FF_Grade"] = notes_clean['FF_Grade'].fillna(notes_clean['R_Grade'])
+    notes_clean = notes_clean.dropna(subset=["FF_Grade"])
 
     return notes_clean
