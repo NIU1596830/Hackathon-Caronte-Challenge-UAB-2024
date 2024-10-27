@@ -57,6 +57,7 @@ def predecir_nota():
 
 # Función para verificar si va bien para una nota deseada
 def verificar_nota():
+    user_id = int(entry_id.get())
     nota = calculo_nota()
 
     diff = nota - predecir_nota
