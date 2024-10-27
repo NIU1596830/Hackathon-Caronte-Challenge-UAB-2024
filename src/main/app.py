@@ -64,11 +64,11 @@ def verificar_nota():
 
     diff = nota - predecir_nota
     if diff < 0:
-        outcome = "muy pocas posibilidades"
-        if diff < 1:
+        outcome = "muchas probabilidades de llegar"
+        if diff < -1:
             outcome = "posibilidades"
-            if diff < 2:
-                outcome = "muchas probabilidades de llegar"
+            if diff < -2:
+                outcome = "muy pocas posibilidades"
             
     else:
         outcome = "buen ritmo"
