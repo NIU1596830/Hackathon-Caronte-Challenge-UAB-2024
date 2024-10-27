@@ -19,17 +19,30 @@ def main(data_path: str):
     merged = data.merging.merge_datasets(activitats, notes, trameses)
     print(merged)
 
+    (aval_unica, aval_cont) = training.split_by_aval_cont(merged)
+    print(aval_unica)
+    print(aval_cont)
 
-    treeModel = model.decision_tree(5)
+    models = [
+        ("Arbol de decisiones", model.decision_tree(5)),
+        ("Red Neuronal", model.neural())
+    ]
 
-    train, test = train_test_split(merged, test_size=0.2)
+    avaluacions = [
+        ("Unica", aval_unica),
+        ("Continua", aval_cont)
+    ]
 
-    treeModel = training.train_model_with_dataset(treeModel, train)
+    for (aval_name, aval) in avaluacions:
+        print(f"Avaluacion {aval_name}")
+        train, test = train_test_split(aval, test_size=0.2)
+        for (model_name, model_to_train) in models:
+            print(f"\tModelo {model_name}")
+            trained_model = training.train_model_with_dataset(model_to_train, train)
+            error = training.test_model(trained_model, test)
+            print(f"\t\terror {error}")
 
-    error = training.test_model(treeModel, test)
-
-    print(f"error {error}")
-    print(tree.export_text(treeModel, feature_names=train.columns.drop("FF_Grade")))
+    # print(tree.export_text(treeModel, feature_names=train.columns.drop("FF_Grade")))
 
 
 if __name__ == "__main__":

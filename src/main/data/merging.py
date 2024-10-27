@@ -22,6 +22,8 @@ def merge_datasets(activitats: pd.DataFrame, notes: pd.DataFrame, trameses: pd.D
     # percentage of activities done
     joined2_cleaned['actPercentage'] = joined2_cleaned['actCount'] / joined2_cleaned['actTotal']
 
-    joined2_cleaned = joined2_cleaned.drop(axis=1, labels=["id", "activitat_id", "userid", "dategraded", "startdate", "avalContinua", "actCount", "duedate", "passed", "grade", "actTotal", "R_Grade", "F_Grade"])
+    joined2_cleaned = joined2_cleaned.drop(axis=1, labels=["id", "activitat_id", "userid", "dategraded", "startdate", "avalContinua", "actCount", "duedate", "passed", "grade", "actTotal", "R_Grade", "F_Grade", "nevaluations", "timediff", "aula_id"])
+
+    joined2_cleaned = joined2_cleaned.drop_duplicates()
 
     return joined2_cleaned
