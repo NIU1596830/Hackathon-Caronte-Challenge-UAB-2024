@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+import numpy as np
+
 import data.activitats
 import data.notes
 import data.trameses
@@ -10,22 +12,41 @@ import inference
 
 # Función para predecir la nota a partir del ID de usuario
 def predecir_nota():
-    user_id = entry_id.get()
-    aula_id = entry_aula.get()
+    user_id = int(entry_id.get())
+    aula_id = int(entry_aula.get())
+
+    print(user_id, aula_id)
     # Aquí se colocaría la lógica para predecir la nota
-    data_path = '../../datasets/'
+    data_path = './datasets/'
     # coger la entrada en notas, mirar si tiene parcial
     activitats = data.activitats.load_activitats(data_path)
     notes = data.notes.load_notes(data_path)
     trameses = data.trameses.load_trameses(data_path)
 
     merged = data.merging.merge_datasets(activitats, notes, trameses, True)
+    print("merged")
     print(merged)
 
-    data_user = merged[(merged["userid"] == user_id) & (merged["aula_id"] == aula_id)]   
+    data_user = merged[(merged["userid"] == user_id) & (merged["aula_id"] == aula_id)].iloc[0]
+    print("data_user")
+    print(data_user)
+
+    merged = data.merging.merge_datasets(activitats, notes, trameses)
+    (unica, continua) = training.split_by_aval_cont(merged)
+
+    if np.isnan(data_user["P_Grade"]):
+        dataset = unica
+        data_user = data_user.drop(labels=["P_Grade"])
+    else:
+        dataset = continua
+    model_conf = model.neural()
+    model_t = training.train_model_with_dataset(model_conf, dataset)
+
+    data_user_clean = data_user.drop(labels=["userid", "aula_id", "FF_Grade"])
+
+    nota = model_t.predict([data_user_clean])
 
     
-    nota = model.neural().predict(data_user)
     predicted_score = 0.85  # Suponiendo una nota predicha de ejemplo
     messagebox.showinfo("Predicción de Nota", f"La nota predicha para el usuario {user_id} es: {nota}")
 

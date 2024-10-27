@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="actPercentage <= 0.622\nsquared_error = 6.644\nsamples = 388\nvalue = 5.011"] ;
+1 [label="actPercentage <= 0.497\nsquared_error = 4.348\nsamples = 110\nvalue = 2.793"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="actPercentage <= 0.132\nsquared_error = 4.212\nsamples = 77\nvalue = 2.391"] ;
+1 -> 2 ;
+3 [label="squared_error = 3.522\nsamples = 11\nvalue = 1.318"] ;
+2 -> 3 ;
+4 [label="squared_error = 4.103\nsamples = 66\nvalue = 2.57"] ;
+2 -> 4 ;
+5 [label="actPercentage <= 0.525\nsquared_error = 3.407\nsamples = 33\nvalue = 3.731"] ;
+1 -> 5 ;
+6 [label="squared_error = 0.238\nsamples = 4\nvalue = 4.988"] ;
+5 -> 6 ;
+7 [label="squared_error = 3.596\nsamples = 29\nvalue = 3.558"] ;
+5 -> 7 ;
+8 [label="grades_mean <= 0.896\nsquared_error = 4.837\nsamples = 278\nvalue = 5.888"] ;
+0 -> 8 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+9 [label="actPercentage <= 0.797\nsquared_error = 4.54\nsamples = 95\nvalue = 4.821"] ;
+8 -> 9 ;
+10 [label="squared_error = 4.303\nsamples = 87\nvalue = 4.623"] ;
+9 -> 10 ;
+11 [label="squared_error = 2.085\nsamples = 8\nvalue = 6.969"] ;
+9 -> 11 ;
+12 [label="grades_mean <= 0.954\nsquared_error = 4.092\nsamples = 183\nvalue = 6.443"] ;
+8 -> 12 ;
+13 [label="squared_error = 4.129\nsamples = 142\nvalue = 6.172"] ;
+12 -> 13 ;
+14 [label="squared_error = 2.827\nsamples = 41\nvalue = 7.381"] ;
+12 -> 14 ;
+}

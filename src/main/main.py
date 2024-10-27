@@ -8,6 +8,7 @@ import inference
 
 from sklearn.model_selection import train_test_split
 import sklearn.tree as tree
+from graphviz import Source
 
 
 def main(data_path: str):
@@ -24,7 +25,7 @@ def main(data_path: str):
     print(aval_cont)
 
     models = [
-        ("Arbol de decisiones", model.decision_tree(5)),
+        ("Arbol de decisiones", model.decision_tree(3)),
         ("Red Neuronal", model.neural())
     ]
 
@@ -41,6 +42,9 @@ def main(data_path: str):
             trained_model = training.train_model_with_dataset(model_to_train, train)
             error = training.test_model(trained_model, test)
             print(f"\t\terror {error}")
+            # graph = Source( tree.export_graphviz(trained_model, out_file=None, feature_names=train.columns.drop("FF_Grade")))
+            # graph.format = 'png'
+            # graph.render(f"{aval_name}-tree_render",view=True)
 
     # print(tree.export_text(treeModel, feature_names=train.columns.drop("FF_Grade")))
 
