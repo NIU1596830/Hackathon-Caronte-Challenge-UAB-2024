@@ -26,9 +26,9 @@ def main(data_path: str):
 
     treeModel = training.train_model_with_dataset(treeModel, train)
 
-    mse = training.test_model(treeModel, test)
+    error = training.test_model(treeModel, test)
 
-    print(f"mse {mse}")
+    print(f"error {error}")
     print(tree.export_text(treeModel, feature_names=train.columns.drop("FF_Grade")))
 
 
