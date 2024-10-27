@@ -17,7 +17,7 @@ def predecir_nota():
 
     print(user_id, aula_id)
     # Aquí se colocaría la lógica para predecir la nota
-    data_path = './datasets/'
+    data_path = '../../datasets/'
     # coger la entrada en notas, mirar si tiene parcial
     activitats = data.activitats.load_activitats(data_path)
     notes = data.notes.load_notes(data_path)
@@ -46,17 +46,33 @@ def predecir_nota():
 
     nota = model_t.predict([data_user_clean])
 
-    
-    predicted_score = 0.85  # Suponiendo una nota predicha de ejemplo
     messagebox.showinfo("Predicción de Nota", f"La nota predicha para el usuario {user_id} es: {nota}")
+
+    return nota
 
 # Función para verificar si va bien para una nota deseada
 def verificar_nota():
-    user_id = entry_id.get()
-    desired_score = float(entry_nota.get())
-    # Aquí se colocaría la lógica para verificar si va bien o no
-    outcome = "bien" if desired_score <= 0.8 else "necesita mejorar"  # Suponiendo una lógica de ejemplo
-    messagebox.showinfo("Verificación de Nota", f"El usuario {user_id} va {outcome} para alcanzar la nota {desired_score * 10:.1f}")
+    user_id = int(entry_id.get())
+    aula_id = int(entry_aula.get())
+    predecir_nota = int(entry_nota.get())
+    nota = predecir_nota()
+
+    diff = nota - predecir_nota
+    if diff < 0:
+        outcome = "hay muchas probabilidades de llegar"
+        if diff < 1:
+            outcome = "hay posibilidades"
+            if diff < 2:
+                outcome = "no podrás llegar"
+            
+    else:
+        outcome = "llegas bien"
+        if diff > 1:
+            outcome = "llegas muy bien"
+            if diff > 2:
+                outcome = "llegas demasiado bien"
+
+    messagebox.showinfo("Verificación de Nota", f"El usuario {user_id} va {outcome} para alcanzar la nota {nota}")
 
 # Configuración de la interfaz gráfica
 root = tk.Tk()
