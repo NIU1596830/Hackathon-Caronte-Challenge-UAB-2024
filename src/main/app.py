@@ -11,13 +11,14 @@ import training
 import inference
 
 # Función para predecir la nota a partir del ID de usuario
-def predecir_nota():
+
+def calculo_nota():
     user_id = int(entry_id.get())
     aula_id = int(entry_aula.get())
 
     print(user_id, aula_id)
     # Aquí se colocaría la lógica para predecir la nota
-    data_path = '../../datasets/'
+    data_path = './datasets/'
     # coger la entrada en notas, mirar si tiene parcial
     activitats = data.activitats.load_activitats(data_path)
     notes = data.notes.load_notes(data_path)
@@ -46,33 +47,34 @@ def predecir_nota():
 
     nota = model_t.predict([data_user_clean])
 
-    messagebox.showinfo("Predicción de Nota", f"La nota predicha para el usuario {user_id} es: {nota}")
-
     return nota
+
+
+def predecir_nota():
+    nota = calculo_nota()
+
+    messagebox.showinfo("Predicción de Nota", f"La nota predicha para el usuario {user_id} es: {nota}")
 
 # Función para verificar si va bien para una nota deseada
 def verificar_nota():
-    user_id = int(entry_id.get())
-    aula_id = int(entry_aula.get())
-    predecir_nota = int(entry_nota.get())
-    nota = predecir_nota()
+    nota = calculo_nota()
 
     diff = nota - predecir_nota
     if diff < 0:
-        outcome = "hay muchas probabilidades de llegar"
+        outcome = "muchas probabilidades de llegar"
         if diff < 1:
-            outcome = "hay posibilidades"
+            outcome = "posibilidades"
             if diff < 2:
-                outcome = "no podrás llegar"
+                outcome = "muy pocas posibilidades"
             
     else:
-        outcome = "llegas bien"
+        outcome = "buen ritmo"
         if diff > 1:
-            outcome = "llegas muy bien"
+            outcome = "muy buen ritmo"
             if diff > 2:
-                outcome = "llegas demasiado bien"
+                outcome = "rendimiento superior"
 
-    messagebox.showinfo("Verificación de Nota", f"El usuario {user_id} va {outcome} para alcanzar la nota {nota}")
+    messagebox.showinfo("Verificación de Nota", f"El usuario {user_id} tiene {outcome} para alcanzar la nota {predecir_nota}")
 
 # Configuración de la interfaz gráfica
 root = tk.Tk()
