@@ -1,6 +1,6 @@
 import pandas as pd
 
-def merge_datasets(activitats: pd.DataFrame, notes: pd.DataFrame, trameses: pd.DataFrame) -> pd.DataFrame:
+def merge_datasets(activitats: pd.DataFrame, notes: pd.DataFrame, trameses: pd.DataFrame, with_user = False) -> pd.DataFrame:
     # prepare data for merging
     activitats_prev = activitats.rename({"grade": "grade_max"}, axis=1)
 
@@ -22,7 +22,10 @@ def merge_datasets(activitats: pd.DataFrame, notes: pd.DataFrame, trameses: pd.D
     # percentage of activities done
     joined2_cleaned['actPercentage'] = joined2_cleaned['actCount'] / joined2_cleaned['actTotal']
 
-    joined2_cleaned = joined2_cleaned.drop(axis=1, labels=["id", "activitat_id", "userid", "dategraded", "startdate", "avalContinua", "actCount", "duedate", "passed", "grade", "actTotal", "R_Grade", "F_Grade", "nevaluations", "timediff", "aula_id"])
+    joined2_cleaned = joined2_cleaned.drop(axis=1, labels=["id", "activitat_id", "dategraded", "startdate", "avalContinua", "actCount", "duedate", "passed", "grade", "actTotal", "R_Grade", "F_Grade", "nevaluations", "timediff"])
+
+    if not with_user:
+        joined2_cleaned = joined2_cleaned.drop(axis=1, labels=["userid", "aula_id"])
 
     joined2_cleaned = joined2_cleaned.drop_duplicates()
 

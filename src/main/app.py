@@ -1,12 +1,33 @@
 import tkinter as tk
 from tkinter import messagebox
+import data.activitats
+import data.notes
+import data.trameses
+import data.merging
+import model
+import training
+import inference
 
 # Función para predecir la nota a partir del ID de usuario
 def predecir_nota():
     user_id = entry_id.get()
+    aula_id = entry_aula.get()
     # Aquí se colocaría la lógica para predecir la nota
+    data_path = '../../datasets/'
+    # coger la entrada en notas, mirar si tiene parcial
+    activitats = data.activitats.load_activitats(data_path)
+    notes = data.notes.load_notes(data_path)
+    trameses = data.trameses.load_trameses(data_path)
+
+    merged = data.merging.merge_datasets(activitats, notes, trameses, True)
+    print(merged)
+
+    data_user = merged[(merged["userid"] == user_id) & (merged["aula_id"] == aula_id)]   
+
+    
+    nota = model.neural().predict(data_user)
     predicted_score = 0.85  # Suponiendo una nota predicha de ejemplo
-    messagebox.showinfo("Predicción de Nota", f"La nota predicha para el usuario {user_id} es: {predicted_score * 10:.1f}")
+    messagebox.showinfo("Predicción de Nota", f"La nota predicha para el usuario {user_id} es: {nota}")
 
 # Función para verificar si va bien para una nota deseada
 def verificar_nota():
@@ -26,8 +47,8 @@ entry_id = tk.Entry(root)
 entry_id.grid(row=0, column=1, padx=10, pady=5)
 
 tk.Label(root, text="ID de Aula:").grid(row=1, column=0, padx=10, pady=5)
-entry_id = tk.Entry(root)
-entry_id.grid(row=1, column=1, padx=10, pady=5)
+entry_aula = tk.Entry(root)
+entry_aula.grid(row=1, column=1, padx=10, pady=5)
 
 tk.Label(root, text="Nota Deseada:").grid(row=2, column=0, padx=10, pady=5)
 entry_nota = tk.Entry(root)
