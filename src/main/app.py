@@ -51,6 +51,7 @@ def calculo_nota():
 
 
 def predecir_nota():
+    user_id = int(entry_id.get())
     nota = calculo_nota()
 
     messagebox.showinfo("Predicción de Nota", f"La nota predicha para el usuario {user_id} es: {nota}")
