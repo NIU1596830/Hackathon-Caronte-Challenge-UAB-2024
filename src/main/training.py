@@ -13,7 +13,7 @@ def test_model(model, dataset: pd.DataFrame) -> float:
 
     predicted = model.predict(dataset_copy)
 
-    return mse(target, predicted)
+    return mae(target, predicted)
 
 
 def separate_dataset_and_target(dataset: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
@@ -25,3 +25,6 @@ def separate_dataset_and_target(dataset: pd.DataFrame) -> tuple[pd.DataFrame, pd
 
 def mse(target: pd.Series, predicted: pd.Series) -> float:
     return target.sub(predicted).pow(2).mean()
+
+def mae(target: pd.Series, predicted: pd.Series) -> float:
+    return target.sub(predicted).abs().mean()
